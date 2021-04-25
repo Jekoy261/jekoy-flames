@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title> FLAMES </title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+	<div class="container mt-5">
+		<b> Flames Calculator </b>
+		<hr>
+		<b> HTML </b>
+		<b> jquery </b>
+		<b> bootstrap </b>
+
+		<hr>
+
+		<p> F : Friendship </p>
+		<p> L : Love </p>
+		<p> A : Affection </p>
+		<p> M : Marriage </p>
+		<p> E : Enemy </p>
+		<p> S : Sibling </p>
+
+		<hr>
+		
+		<form>
+			<div class="row">
+				<div class="col-md-12">
+					<label> Your Name </label>
+					<input type="text" name="name1" id="name1" class="form-control" placeholder="Name 1">
+				</div>
+
+				<div class="col-md-12">
+					<label> Crush Name </label>
+					<input type="text" name="name2" id="name2" class="form-control" placeholder="Name 2">
+				</div>
+
+				<div class="col-md-3 mt">
+					<button type="submit" class="btn btn-primary mt-3" id="submit"> Submit </button>
+				</div>
+			</div>
+		</form>
+
+		<hr>
+
+		<h3> Result : <span id="flamesResult"> </span></h3>
+	</div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+	//
+	// FLAMES
+	//
+
+	$(document).on('click', '#submit', function(e) {
+		e.preventDefault();
+
+		let flames    = "FLAMES";
+		let arrFlames = flames.split('');
+		let objFlames = {
+			F : 'Friendship',
+			L : 'Love',
+			A : 'Affection',
+			M : 'Marriage',
+			E : 'Enemy',
+			S : 'Sibling',
+		};
+
+		let name1 = $('#name1').val();
+		let name2 = $('#name2').val();
+	
+		let n1arr = name1.toLowerCase().replace(' ', '').split('');
+		let n2arr = name2.toLowerCase().replace(' ', '').split('');
+	
+		n1arr = n1arr.filter(function(c) {
+			return !name2.toLowerCase().includes(c);
+		});
+
+		n2arr = n2arr.filter(function(c) {
+			return !name1.toLowerCase().includes(c);
+		});
+
+		let nameCount    = n1arr.length + n2arr.length;
+		let flamesLength = flames.length;
+		let index        = 0;
+
+		while (flamesLength > 1) {
+			index = Math.floor(nameCount % flamesLength);
+
+			if (index == 0) {
+				flames    = flames.replace(arrFlames[flamesLength - 1], '');
+				arrFlames = flames.split('');
+			} else {
+				flames = flames.replace(arrFlames[index - 1], '');
+				flames = flames.substring(index - 1) + flames.substring(0, index - 1);
+				arrFlames = flames.split('');
+			}
+
+			flamesLength--;
+		}
+ 		console.log(objFlames[flames]);	
+ 		
+		$('#flamesResult').html(objFlames[flames]);
+	});
+</script>
+</html>
